@@ -18,28 +18,19 @@ function navigator() {
   console.log({ location });
 
   if (location.hash.startsWith('#trends')) {
-
     trendsPage();
-
   } else if (location.hash.startsWith('#search=')) {
-
     searchPage();
-
   } else if (location.hash.startsWith('#movie=')) {
-
     movieDetailsPage();
-
   } else if (location.hash.startsWith('#category=')) {
-
     categoriesPage();
-
   } else {
-
     homePage();
-
   }
 
-  location.hash;
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
 function homePage() {
@@ -77,6 +68,13 @@ function categoriesPage() {
   categoriesPreviewSection.classList.add('inactive');
   genericSection.classList.remove('inactive');
   movieDetailSection.classList.add('inactive');
+
+  const [_, categoryData] = location.hash.split('='); // ['#category', 'id-name']
+  const [categoryId, categoryName] = categoryData.split('-');
+
+  headerCategoryTitle.innerHTML = categoryName
+
+  getMoviesByCategory(categoryId);
 };
 
 function movieDetailsPage() {
