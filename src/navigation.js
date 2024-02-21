@@ -1,5 +1,5 @@
 searchFormBtn.addEventListener('click', () => {
-  location.hash = '#search=';
+  location.hash = '#search=' + searchFormInput.value;
 });
 
 trendingBtn.addEventListener('click', () => {
@@ -7,7 +7,8 @@ trendingBtn.addEventListener('click', () => {
 });
 
 arrowBtn.addEventListener('click', () => {
-  location.hash = '#home';
+  history.back();
+  // location.hash = '#home';
 });
 
 window.addEventListener('DOMContentLoaded', navigator, false);
@@ -68,11 +69,12 @@ function categoriesPage() {
   categoriesPreviewSection.classList.add('inactive');
   genericSection.classList.remove('inactive');
   movieDetailSection.classList.add('inactive');
-
-  const [_, categoryData] = location.hash.split('='); // ['#category', 'id-name']
+  
+  // ['#category', 'id-name']
+  const [_, categoryData] = location.hash.split('='); 
   const [categoryId, categoryName] = categoryData.split('-');
 
-  headerCategoryTitle.innerHTML = categoryName
+  headerCategoryTitle.innerHTML = categoryName;
 
   getMoviesByCategory(categoryId);
 };
@@ -80,7 +82,7 @@ function categoriesPage() {
 function movieDetailsPage() {
   console.log('Estas en movies!');
 
-  headerSection.classList.remove('header-container--long');
+  headerSection.classList.add('header-container--long');
   //headerSection.style.background = '';
   arrowBtn.classList.remove('inactive');
   arrowBtn.classList.add('header-arrow--white');
@@ -93,6 +95,9 @@ function movieDetailsPage() {
   genericSection.classList.add('inactive');
   movieDetailSection.classList.remove('inactive');
 
+  // ['#search', 'batman']
+  const [_, movieId] = location.hash.split('=');
+  getMovieById(movieId);
 };
 
 function searchPage() {
@@ -103,13 +108,17 @@ function searchPage() {
   arrowBtn.classList.remove('inactive');
   arrowBtn.classList.remove('header-arrow--white');
   headerTitle.classList.add('inactive');
-  headerCategoryTitle.classList.remove('inactive');
+  headerCategoryTitle.classList.add('inactive');
   searchForm.classList.remove('inactive');
 
   trendingPreviewSection.classList.add('inactive');
   categoriesPreviewSection.classList.add('inactive');
   genericSection.classList.remove('inactive');
   movieDetailSection.classList.add('inactive');
+
+  // ['#search', 'batman']
+  const [_, query] = location.hash.split('=');
+  getMoviesBySearch(query);
 };
 
 function trendsPage() {
@@ -127,4 +136,8 @@ function trendsPage() {
   categoriesPreviewSection.classList.add('inactive');
   genericSection.classList.remove('inactive');
   movieDetailSection.classList.add('inactive');
+  
+  headerCategoryTitle.innerHTML = 'Tendencias';
+
+  getTrendingMovies();
 };
